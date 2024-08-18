@@ -12,11 +12,12 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("/", rootHandler)
-	router.GET("/book/:id", bookHandler)
-	router.GET("/query", queryHandler)
+	v1 := router.Group("/api/v1")
 
-	router.POST("/books", inputBookHandler)
+	v1.GET("/", rootHandler)
+	v1.GET("/book/:id", bookHandler)
+	v1.GET("/query", queryHandler)
+	v1.POST("/books", inputBookHandler)
 
 	router.Run()
 }
