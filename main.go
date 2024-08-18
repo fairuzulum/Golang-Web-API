@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"golang-web-api/book"
 	"golang-web-api/handler"
 
@@ -19,6 +20,43 @@ func main() {
 	}
 
 	db.AutoMigrate(&book.Book{})
+
+	// book := book.Book{
+	// 	Title:       "Gak tau",
+	// 	Description: "KApa aja Udah yang penting gak tau",
+	// 	Price:       50000,
+	// 	Rating:      9,
+	// 	Discount:    70,
+	// }
+	// // CREATE
+	// err = db.Create(&book).Error
+	// if err != nil {
+	// 	fmt.Println("CREATE DATA FAILED")
+	// }
+
+	var book book.Book
+
+	// FIND BY ID
+	err = db.Debug().Where("id = ?", 1).First(&book).Error
+	if err != nil {
+		fmt.Println("DATA NOT FOUND")
+	}
+
+	fmt.Println("title:" + book.Title)
+	fmt.Println(book)
+
+	// UPDATE
+	// book.Title = "uuuuuuuuuuuu"
+	// err = db.Debug().Save(&book).Error
+	// if err != nil {
+	// 	fmt.Println("UPDATE DATA FAILED")
+	// }
+
+	// DELETE
+	err = db.Debug().Delete(&book).Error
+	if err != nil {
+		fmt.Println("DELETE DATA FAILED")
+	}
 
 	router := gin.Default()
 
