@@ -3,7 +3,7 @@ package book
 type Service interface {
 	FindAll() ([]Book, error)
 	FindByID(ID int) (Book, error)
-	Create(book Book) (Book, error)
+	Create(bookRequest BookRequest) (Book, error)
 }
 
 type service struct {
@@ -24,9 +24,15 @@ func (s *service) FindByID(ID int) (Book, error) {
 
 func (s *service) Create(BookRequest BookRequest) (Book, error) {
 	price, _ := BookRequest.Price.Int64()
+	discount, _ := BookRequest.Discount.Int64()
+	rating, _ := BookRequest.Rating.Int64()
+
 	book := Book{
-		Title: BookRequest.Title,
-		Price: int(price),
+		Title:       BookRequest.Title,
+		Description: BookRequest.Description,
+		Price:       int(price),
+		Rating:      int(rating),
+		Discount:    int(discount),
 	}
 	return s.repository.Create(book)
 }
