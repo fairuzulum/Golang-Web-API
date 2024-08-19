@@ -21,6 +21,27 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
+	bookRepository := book.NewRepository(db)
+
+	// books, err := bookRepository.FindAll()
+	// for _, book := range books {
+	// 	fmt.Println("Title: ", book.Title)
+	// }
+
+	// newBook := book.Book{
+	// 	Title:       "Gak tau",
+	// 	Description: "KApa aja Udah yang penting gak tau",
+	// 	Price:       50000,
+	// 	Rating:      9,
+	// 	Discount:    70,
+	// }
+	// bookRepository.Create(newBook)
+
+	book, err := bookRepository.FindByID(3)
+	fmt.Println(book)
+
+	///////////////////////////////////
+
 	// book := book.Book{
 	// 	Title:       "Gak tau",
 	// 	Description: "KApa aja Udah yang penting gak tau",
@@ -34,16 +55,16 @@ func main() {
 	// 	fmt.Println("CREATE DATA FAILED")
 	// }
 
-	var book book.Book
+	// var book book.Book
 
-	// FIND BY ID
-	err = db.Debug().Where("id = ?", 1).First(&book).Error
-	if err != nil {
-		fmt.Println("DATA NOT FOUND")
-	}
+	// // FIND BY ID
+	// err = db.Debug().Where("id = ?", 1).First(&book).Error
+	// if err != nil {
+	// 	fmt.Println("DATA NOT FOUND")
+	// }
 
-	fmt.Println("title:" + book.Title)
-	fmt.Println(book)
+	// fmt.Println("title:" + book.Title)
+	// fmt.Println(book)
 
 	// UPDATE
 	// book.Title = "uuuuuuuuuuuu"
@@ -52,11 +73,11 @@ func main() {
 	// 	fmt.Println("UPDATE DATA FAILED")
 	// }
 
-	// DELETE
-	err = db.Debug().Delete(&book).Error
-	if err != nil {
-		fmt.Println("DELETE DATA FAILED")
-	}
+	// // DELETE
+	// err = db.Debug().Delete(&book).Error
+	// if err != nil {
+	// 	fmt.Println("DELETE DATA FAILED")
+	// }
 
 	router := gin.Default()
 
