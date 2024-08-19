@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"golang-web-api/book"
 	"golang-web-api/handler"
 
@@ -11,6 +10,12 @@ import (
 )
 
 func main() {
+
+	//main
+	//handler
+	//service
+	//repository
+	//db
 
 	dsn := "root:@tcp(127.0.0.1:3306)/golang_web_api?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -22,6 +27,21 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
+
+	// book, _ := bookService.FindAll()
+	// fmt.Println(book)
+
+	// book, _ := bookService.FindByID(3)
+	// fmt.Println(book)
+
+	newBook := book.BookRequest{
+		Title: "Cinta monyet",
+		Price: "50000",
+	}
+	bookService.Create(newBook)
+
+	/////////////////////////////////////////////
 
 	// books, err := bookRepository.FindAll()
 	// for _, book := range books {
@@ -37,8 +57,8 @@ func main() {
 	// }
 	// bookRepository.Create(newBook)
 
-	book, err := bookRepository.FindByID(3)
-	fmt.Println(book)
+	// book, err := bookRepository.FindByID(3)
+	// fmt.Println(book)
 
 	///////////////////////////////////
 
