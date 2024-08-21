@@ -107,7 +107,10 @@ func main() {
 	// v1.GET("/", bookHandler.RootHandler)
 	// v1.GET("/book/:id", bookHandler.BooksHandler)
 	v1.GET("/books", bookHandler.GetAllBooksHandler)
+	v1.GET("/books/:id", bookHandler.GetBookByIDHandler)
 	v1.POST("/books", bookHandler.InputBookHandler)
+	v1.PUT("/books/:id", bookHandler.UpdateBookHandler)
+	v1.DELETE("/books/:id", bookHandler.DeleteBookHandler)
 
 	router.Run()
 }
