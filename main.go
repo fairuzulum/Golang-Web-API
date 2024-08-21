@@ -104,9 +104,9 @@ func main() {
 
 	v1 := router.Group("/api/v1")
 
-	v1.GET("/", bookHandler.RootHandler)
-	v1.GET("/book/:id", bookHandler.BooksHandler)
-	v1.GET("/query", bookHandler.QueryHandler)
+	// v1.GET("/", bookHandler.RootHandler)
+	// v1.GET("/book/:id", bookHandler.BooksHandler)
+	v1.GET("/books", bookHandler.GetAllBooksHandler)
 	v1.POST("/books", bookHandler.InputBookHandler)
 
 	router.Run()

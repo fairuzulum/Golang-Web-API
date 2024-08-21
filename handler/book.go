@@ -9,7 +9,6 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-
 type bookHandler struct {
 	bookService book.Service
 }
@@ -18,26 +17,52 @@ func NewBookHandler(bookService book.Service) *bookHandler {
 	return &bookHandler{bookService}
 }
 
+// func (h *bookHandler) RootHandler(c *gin.Context) {
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"message": "Hello World",
+// 	})
+// }
 
-func (h *bookHandler) RootHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Hello World",
-	})
-}
+// func (h *bookHandler) BooksHandler(c *gin.Context) {
+// 	id := c.Param("id")
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"Book ID ": id,
+// 	})
+// }
 
-func (h *bookHandler) BooksHandler(c *gin.Context) {
-	id := c.Param("id")
-	c.JSON(http.StatusOK, gin.H{
-		"Book ID ": id,
-	})
-}
+// func (h *bookHandler)  QueryHandler(c *gin.Context) {
+// 	title := c.Query("title")
+// 	id := c.Query("id")
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"book Id ":    id,
+// 		"Book Title ": title,
+// 	})
+// }
 
-func (h *bookHandler)  QueryHandler(c *gin.Context) {
-	title := c.Query("title")
-	id := c.Query("id")
+func (h *bookHandler) GetAllBooksHandler(c *gin.Context) {
+	books, err := h.bookService.FindAll()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	booksResponse := []book.BookResponse{}
+	for _, b := range books {
+		bookResponse := book.BookResponse{
+			ID:          b.ID,
+			Title:       b.Title,
+			Description: b.Description,
+			Price:       b.Price,
+			Rating:      b.Rating,
+			Discount:    b.Discount,
+		}
+		booksResponse = append(booksResponse, bookResponse)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"book Id ":    id,
-		"Book Title ": title,
+		"data": booksResponse,
 	})
 }
 
